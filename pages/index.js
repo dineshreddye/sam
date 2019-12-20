@@ -25,11 +25,11 @@ import { Helmet } from "react-helmet";
 import PlainParallaxMobile from "../components/mobile/plainParallaxMobile";
 import styled from "styled-components";
 
-const PopupComponent = () => {
+const PopupComponent = ({ image, width, mobile, onClick, showModal }) => {
   return (
     <Popup
       modal
-      open
+      open={showModal}
       contentStyle={{
         background: "transparent",
         width: "auto",
@@ -42,13 +42,28 @@ const PopupComponent = () => {
     >
       {close => (
         <div className="modal">
-          <div className="content">
-            <img
-              src={"/static/images/popup.jpg"}
-              
-              style={{ width: "750px", height: "auto" }}
-            />
-          </div>
+          {mobile && onClick ? (
+            <>
+              <p
+                style={{ color: "#fff", textAlign: "right", marginRight: 32 }}
+                onClick={onClick}
+              >
+                &#10005;
+              </p>
+              <div className="content" style={{ textAlign: "center" }}>
+                <a
+                  href="https://www.toasttab.com/samudhrausa/v2/online-order#!/order"
+                  target="_blank"
+                >
+                  <img src={image} style={{ width: width, height: "auto" }} />
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="content" style={{ textAlign: "center" }}>
+              <img src={image} style={{ width: width, height: "auto" }} />
+            </div>
+          )}
         </div>
       )}
     </Popup>
@@ -80,7 +95,8 @@ const GridItem = styled.div`
 
 class Home extends React.Component {
   state = {
-    showHeader: false
+    showHeader: false,
+    showModal: true
   };
 
   componentDidMount() {
@@ -183,9 +199,16 @@ class Home extends React.Component {
             />
             <Contact />
             <Footer showImage={true} strength={0} />
-            <PopupComponent />
-            <div style={{position: 'sbsolute', bottom: 0, right: 0}}>
-              <img src="/static/images/ticket.jpg" style={{width: 200, height: 200}}/>
+            <PopupComponent
+              image={"/static/images/popup.jpg"}
+              width={"750px"}
+              showModal={this.state.showModal}
+            />
+            <div style={{ position: "absolute", bottom: 0, right: 0 }}>
+              <img
+                src="/static/images/ticket.jpg"
+                style={{ width: 200, height: 200 }}
+              />
             </div>
           </Desktop>
         </ParallaxProvider>
@@ -220,7 +243,40 @@ class Home extends React.Component {
               />
             </div>
             <Footer strength={0} />
-            {/* <PopupComponent /> */}
+            <PopupComponent
+              image={"/static/images/pop1.png"}
+              width={"80%"}
+              mobile={true}
+              showModal={this.state.showModal}
+              onClick={() => {
+                this.setState({
+                  showModal: false
+                });
+              }}
+            />
+            {!this.state.showModal && (
+              <div
+                style={{
+                  position: "fixed",
+                  bottom: 0,
+                  width: "100%",
+                  right: 0,
+                  left: 0,
+                  marginBottom: "-8px",
+                  marginRight: "-2px"
+                }}
+              >
+                <a
+                  href="https://www.toasttab.com/samudhrausa/v2/online-order#!/order"
+                  target="_blank"
+                >
+                  <img
+                    src={"/static/images/stickyMobile.png"}
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                </a>
+              </div>
+            )}
           </Mobile>
         </ParallaxProvider>
       </>

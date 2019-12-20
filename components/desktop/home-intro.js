@@ -294,7 +294,8 @@ class HomeIntro extends React.Component {
                     width: 345,
                     height: "auto",
                     zIndex: 10000,
-                    pointer: "cursor"
+                    pointer: "cursor",
+                    marginBottom: "-8px"
                   }}
                   onClick={this.muteVideo}
                   alt={"Mute"}
